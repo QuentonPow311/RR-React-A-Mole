@@ -1,21 +1,33 @@
-import { useEffect } from 'react'
-import moleImg from '../mole.png'
+import { useEffect, useState } from 'react';
+import mole from '../mole.png';
 
-const Mole = (props) => {
+export default function Mole(props){
+    let [hideAfterTime, setHideAfterTime] = useState(Math.floor(Math.random() * 4500 + 500));
+const isPaused = props;
+useEffect (() => {
+    const hideMoleAfter =  !isPaused ? hideAfterTime : Math.floor(Math.random() * 4500 + 500);
+const timer = setTimeout(() => {
+props.setIsShowing(false);
+}, hideMoleAfter);
 
-    useEffect(() => {
-        let randSeconds = Math.ceil(Math.random() * 10000)
-        let timer = setTimeout(() => {
-            props.toggle(false)
-        }, randSeconds)
-        return () => clearTimeout(timer)
-    })
+    if (isPaused) {
+       setHideAfterTime(hideMoleAfter);
+       clearTimeout(timer);
+    } else {
 
-    return (
-        <div>
-            <img style={{'width': '30vw'}} src={moleImg} onClick={props.handleClick} />
-        </div>
-    )
+    }
+
+return () => {
+    clearTimeout(timer);
 }
 
-export default Mole
+
+}, [isPaused])
+
+return <img alt='mole' className='mole' src={mole} onClick={props.moleClicked} />
+
+
+
+
+
+}

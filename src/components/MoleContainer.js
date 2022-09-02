@@ -1,22 +1,32 @@
 import { useState } from 'react'
 import Mole from './Mole'
-import EmptySlot from './EmptySlot'
+import Empty from './Empty'
 
-const MoleContainer = (props) => {
-    let [theMole, setTheMole] = useState(false)
+export default function MoleContainer(props)  {
+    let [isShowing,  setIsShowing ] = useState(false);
 
-    const handleClick = (e) => {
-        props.setScore(props.score + 1)
-        setTheMole(false)
+    const handleMoleClicked = (e) => {
+        if (isShowing) {
+        props.addToScore(1);
+        setIsShowing(false)
+    }
     }
 
-    let displayMole = theMole ? <Mole setScore={props.setScore} toggle={setTheMole} handleClick={handleClick} /> : <EmptySlot toggle={setTheMole} />
+    
 
-    return (
-        <div style={{'display': 'inline-block', 'width': '30vw'}}>
-            {displayMole}
-        </div>
-    )
+    return ( <div>
+       {
+isShowing ?
+<Mole setIsShowing ={setIsShowing} moleClicked={handleMoleClicked} />
+:
+<Empty setIsShowing={setIsShowing} />
+
+       }
+    
+</div>
+)
+
+  
+
 }
 
-export default MoleContainer
